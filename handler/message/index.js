@@ -1,30 +1,15 @@
-const { color } = require('../../util')
+const { color, formatin, inArray } = require('../../utils')
 const { cariKasar } = require('../../lib')
 const moment = require('moment-timezone')
 const appRoot = require('app-root-path')
+
 const low = require('lowdb')
 const FileSync = require('lowdb/adapters/FileSync')
-
 const db_group = new FileSync(appRoot+'/data/group.json')
 const db = low(db_group)
 
 moment.tz.setDefault('Asia/Jakarta').locale('id')
 db.defaults({ group: []}).write()
-
-function formatin(duit){
-    let	reverse = duit.toString().split('').reverse().join('');
-    let ribuan = reverse.match(/\d{1,3}/g);
-    ribuan = ribuan.join('.').split('').reverse().join('');
-    return ribuan;
-}
-
-const inArray = (needle, haystack) => {
-    let length = haystack.length;
-    for(let i = 0; i < length; i++) {
-        if(haystack[i].id == needle) return i;
-    }
-    return false;
-}
 
 module.exports = msgHandler = async (client, message) => {
     try {
